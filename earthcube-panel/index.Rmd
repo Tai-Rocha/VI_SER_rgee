@@ -1,0 +1,140 @@
+---
+title: " VI SER<br><br>  Uma pacote em R para acessar" 
+author: "Tainá Rocha"
+role: Product Manager, Data Science Communication
+org: "@RStudio"
+date: "25 Maio 2022"
+output:
+  xaringan::moon_reader:
+    anchor_sections: TRUE
+    css: ["default", "css/theme.css", "css/fonts.css"]
+    seal: false 
+    lib_dir: libs
+    nature:
+      slideNumberFormat: |
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+        </div>
+      highlightStyle: solarized-light
+      highlightLanguage: ["r", "css", "yaml"]
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+class: title-slide, left, middle
+background-image: url("images/rgee-hex.png")
+background-position: 85% 50%
+background-size: 30%
+background-color: #F9F8F3
+
+.pull-left[
+
+# `r rmarkdown::metadata$title`
+
+### `r rmarkdown::metadata$author`, Ph.D.
+
+### `r rmarkdown::metadata$org`
+
+### `r rmarkdown::metadata$date`
+]
+
+
+---
+class: middle, center
+
+# Roteiro
+
+.columns[
+
+.left-col[
+### O que é o Google Earth Engine
+
+<img style="border-radius: 50%;" src="https://img2.gratispng.com/20190319/fwp/kisspng-question-mark-information-image-portable-network-g-online-classess-online-classes-wsu-5c90886ee672e3.3688816615529759829439.jpg" width="150px"/>
+
+[`r fontawesome::fa("github")` @apreshill](https://github.com/apreshill)    
+[`r fontawesome::fa("twitter")` @apreshill](https://twitter.com/apreshill)   
+[`r fontawesome::fa("link")` alison.rbind.io](https://alison.rbind.io)
+]
+
+.middle-col[
+### Requisitos de Instalção <br> e Funções Básicas  
+
+<img style="border-radius: 50%;" src="https://user-images.githubusercontent.com/16768318/71569603-3341d680-2ac8-11ea-8787-4dd1fbba326f.png" width="150px"/>
+
+[`r fontawesome::fa("github")` @cderv](https://github.com/cderv)    
+[`r fontawesome::fa("twitter")` @chrisderv](https://twitter.com/chrisderv)   
+]
+
+
+.right-col[
+### Um estudo de caso
+
+<img style="border-radius: 50%; object-fit: cover;" src="https://pbs.twimg.com/media/EgqKANjVkAEVDtb.jpg" width="150px" height="150px"/>
+
+[`r fontawesome::fa("github")` @yihui](https://github.com/yihui)    
+[`r fontawesome::fa("twitter")` @xieyihui](https://twitter.com/xieyihui)   
+[`r fontawesome::fa("link")` yihui.org](https://yihui.org/)
+]
+]
+
+---
+class: middle
+background-image: url(images/hexes.png)
+background-position: left
+background-size: contain
+
+
+<br><br> 
+<br><br>
+<br><br>
+<br><br>
+<br><br>
+<br><br>
+<br>
+
+### Plataforma de análise de dados geoespaciais baseada na nuvem
+
+---
+## Requisitos da Instalação
+
+- Google account with Earth Engine activated
+
+- Python >= v3.5
+
+- EarthEngine Python API (Python package)
+
+???
+  bla bla bla bla 
+
+
+---
+##  Instalação
+
+```{r instalação, echo=TRUE, eval = FALSE, include=TRUE}
+install.packages("rgee")
+```
+
+
+---
+name: hello
+class: middle, center, inverse
+
+
+### `r rmarkdown::metadata$author`
+
+<img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/11633554?v=4" width="150px"/>
+
+### `r rmarkdown::metadata$role`
+
+### `r rmarkdown::metadata$org`
+
+[`r fontawesome::fa("github")` @Tai-Rocha](https://github.com/Tai-Rocha)    
+[`r fontawesome::fa("twitter")` @Tai_Rocha_](https://twitter.com/Tai_Rocha_)   
+[`r fontawesome::fa("link")` tainaweb-en.netlify.app](https://tainaweb-en.netlify.app/)
+
