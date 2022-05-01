@@ -1,0 +1,236 @@
+---
+title: " VI SER<br><br>  Uma pacote em R para acessar o Google Earth Engine" 
+author: "Tainá Rocha"
+role: Environmental and Biodiversity Data Scientist <br> Biologist | MSc. in Environmental biology | PhD. in Zoology 
+org: " "
+date: "25 Maio 2022"
+output:
+  xaringan::moon_reader:
+    anchor_sections: TRUE
+    css: ["default", "css/theme.css", "css/fonts.css"]
+    seal: false 
+    lib_dir: libs
+    nature:
+      slideNumberFormat: |
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+        </div>
+      highlightStyle: solarized-light
+      highlightLanguage: ["r", "css", "yaml"]
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+class: title-slide, left, middle
+background-image: url("images/rgee-hex.png")
+background-position: 85% 50%
+background-size: 30%
+background-color: #F9F8F3
+
+.pull-left[
+
+# `r rmarkdown::metadata$title`
+
+### `r rmarkdown::metadata$author`, Ph.D.
+
+### `r rmarkdown::metadata$org`
+
+### `r rmarkdown::metadata$date`
+]
+
+
+---
+class: middle, center
+
+# Roteiro
+
+.columns[
+
+.left-col[
+### Google Earth Engine
+
+<img style="border-radius: 50%;" src="https://img2.gratispng.com/20190319/fwp/kisspng-question-mark-information-image-portable-network-g-online-classess-online-classes-wsu-5c90886ee672e3.3688816615529759829439.jpg" width="150px"/>
+
+[`r fontawesome::fa("github")` @apreshill](https://github.com/apreshill)    
+[`r fontawesome::fa("twitter")` @apreshill](https://twitter.com/apreshill)   
+[`r fontawesome::fa("link")` alison.rbind.io](https://alison.rbind.io)
+]
+
+.middle-col[
+### Requisitos de Instalção <br> e Funções Básicas  
+
+<img style="border-radius: 50%;" src="https://user-images.githubusercontent.com/16768318/71569603-3341d680-2ac8-11ea-8787-4dd1fbba326f.png" width="150px"/>
+
+[`r fontawesome::fa("github")` @cderv](https://github.com/cderv)    
+[`r fontawesome::fa("twitter")` @chrisderv](https://twitter.com/chrisderv)   
+]
+
+
+.right-col[
+### Um estudo de caso
+
+<img style="border-radius: 50%; object-fit: cover;" src="https://pbs.twimg.com/media/EgqKANjVkAEVDtb.jpg" width="150px" height="150px"/>
+
+[`r fontawesome::fa("github")` @yihui](https://github.com/yihui)    
+[`r fontawesome::fa("twitter")` @xieyihui](https://twitter.com/xieyihui)   
+[`r fontawesome::fa("link")` yihui.org](https://yihui.org/)
+]
+]
+
+---
+class: top 
+background-image: url(images/hexes.png)
+background-position: top right
+background-size: 20%
+
+## GEE
+
+#### Falar de dados geosespaciais... ambinetais, utilidade. falar das anlaises qwue são feitas.  Figura do GEE 
+
+#### Falar de dados geosespaciais... ambinetais, utilidade. falar das anlaises qwue são feitas.  Figura do GEE 
+---
+## GEE 
+
+####  Falar que esses dados estão sendo disponibilizados em resoluções cada vez mais alta em resoluções cada vez mais finas e mostar exemplo dos pixels 
+
+#### Falar que o google oferece sua infraestrutura para analise desses dados ( verificar questão de limites)
+--
+
+### Contudo... phtyon ou java ... Mostar a foto do code editor me java script 
+
+---
+class: top 
+background-image: url(images/rgee-hex.png)
+background-position: 95% 50%
+background-size: 15%
+## rgee 
+
+#### Fotot dos meninos 
+
+##### surge como mais uma alternativa. 
+
+##### Falar da propsta do rgee e como ele acessa a API
+---
+class: middle, center
+
+.columns[
+
+.left-col[
+### r
+
+```{r 0xaringanExtra-clipboard, echo=TRUE}
+a <- c(1, 2, 3)
+a
+#library(rgee)
+#ee_Initialize()
+#db <- 'CGIAR/SRTM90_V4'
+#image <- ee$Image(db)
+#image$bandNames()$getInfo()
+)
+```
+
+]
+
+.middle-col[
+### Phyton 
+```{phyton, echo=TRUE}
+import ee
+ee.Initialize()
+db = 'CGIAR/SRTM90_V4'
+image = ee.Image(db)
+image.bandNames().getInfo()
+```
+]
+
+
+.right-col[
+### JavaScript
+
+```{js, echo TRUE}
+var db = 'CGIAR/SRTM90_V4'
+var image = ee.Image(db)
+print(image.bandNames())
+```
+]
+]
+---
+### Requisitos da Instalação
+
+- Conta do Google com o Earth Engine ativado
+
+- Python >= v3.5
+
+- EarthEngine Python API (Python package)
+
+???
+
+É IMPORTANTE SABER QUE EXISTEM ALGUNS REQUISITOS PARA QUE SE CONSIGA INSTALAR ADEQUADAMENTE O PACOTE . Caso vocẽ naõ tenha ... será um pouco mis trablahoso, m,as eu vejo muita gente desistindo nocomeço por conta disso. do que de costume em relação a outros pacotes em R. Por isso é importante saber que existem prerequisitos . Eu vou citar brevemente esses prequeisitos poruqe eu obervei em fóruns, grupos de R, issues no github que muitos usuários, inclsuive não só iniciantes podem encontrar algumas dificuldades para instalação do rgee por cota desses prequeitas. Então é precios ter em mente que antes da comando convencional antes do comando convencional (install package) para intalação, os usuários devem :
+
+1- Possuir uma conta no google (https://earthengine.google.com)
+2- Ter uma versão do Pyhton maior 3.5 instalada no seu sistema 
+3- 
+
+
+
+---
+##  Instalação
+
+```{r instalação, echo=TRUE, eval = FALSE, include=TRUE}
+install.packages("reticulate")
+
+install.packages("rgee")
+
+#rgee::ee_install()
+```
+
+#### Ou
+
+```{r 2instalação via library, echo=TRUE, eval = FALSE, include=TRUE}
+#library(rgee)
+
+#ee::install
+```
+---
+#### Após instalado e carregado 
+
+```{r initilize, echo=TRUE, eval = FALSE, include=TRUE}
+# Initialize Earth Engine!
+rgee::ee_Initialize()
+
+```
+
+### Adidionalmente 
+
+
+```{r checks, echo=TRUE, eval = FALSE, include=TRUE}
+ee_check() # Check non-R dependencies
+ee_clean_credentials() # Remove credentials of a specific user
+ee_clean_pyenv() # Remove reticulate system variables
+```
+
+---
+##### Alguns estudos de casos  . Mãos a obra 
+
+---
+name: hello
+class: middle, center, inverse
+
+
+### `r rmarkdown::metadata$author`
+
+<img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/11633554?v=4" width="150px"/>
+
+### `r rmarkdown::metadata$role`
+
+### `r rmarkdown::metadata$org`
+
+[`r fontawesome::fa("github")` @Tai-Rocha](https://github.com/Tai-Rocha)    
+[`r fontawesome::fa("twitter")` @Tai_Rocha_](https://twitter.com/Tai_Rocha_)   
+[`r fontawesome::fa("link")` tainaweb-en.netlify.app](https://tainaweb-en.netlify.app/)
+
