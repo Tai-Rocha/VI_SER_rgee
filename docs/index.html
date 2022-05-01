@@ -6,16 +6,11 @@
     <meta name="author" content="Tainá Rocha" />
     <script src="libs/header-attrs-2.14/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
-    <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
-    <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
-    <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
     <link rel="stylesheet" href="css/theme.css" type="text/css" />
     <link rel="stylesheet" href="css/fonts.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
-
-
 
 
 class: title-slide, left, middle
@@ -44,7 +39,7 @@ class: middle, center
 .columns[
 
 .left-col[
-### Google Earth Engine
+### Google Earth Engine (GEE) e rgee
 
 &lt;img style="border-radius: 50%;" src="https://img2.gratispng.com/20190319/fwp/kisspng-question-mark-information-image-portable-network-g-online-classess-online-classes-wsu-5c90886ee672e3.3688816615529759829439.jpg" width="150px"/&gt;
 
@@ -75,62 +70,67 @@ class: middle, center
 ]
 
 ---
-class: top 
-background-image: url(images/hexes.png)
-background-position: top right
-background-size: 20%
+class: middle 
 
-## GEE
+#### GEE
 
-#### Falar de dados geosespaciais... ambinetais, utilidade. falar das anlaises qwue são feitas.  Figura do GEE 
+&lt;iframe src="https://earthengine.google.com/" width="100%" height="450" data-external="1"&gt;&lt;/iframe&gt;
+.footnote[https://developers.google.com/earth-engine/datasets/"]
 
-#### Falar de dados geosespaciais... ambinetais, utilidade. falar das anlaises qwue são feitas.  Figura do GEE 
+???
+
+-Falar de dados geosespaciais... ambinetais, utilidade. falar das anlaises qwue são feitas.  Figura do GEE 
+
 ---
-## GEE 
 
-####  Falar que esses dados estão sendo disponibilizados em resoluções cada vez mais alta em resoluções cada vez mais finas e mostar exemplo dos pixels 
+#### Volume de dados | Resolução de dados -&gt; Demanda por processamento de alta perfomance 
 
-#### Falar que o google oferece sua infraestrutura para analise desses dados ( verificar questão de limites)
+&lt;img src="images/res.png" width="62%" style="display: block; margin: auto;" /&gt;
+???
+Falar que o google oferece sua infraestrutura para analise desses dados ( verificar questão de limites)
+
+---
+
+#### Contudo... JavaScript ou Phyton 
+
 --
-
-### Contudo... phtyon ou java ... Mostar a foto do code editor me java script 
-
+&lt;img src="images/cejs.png" width="100%" style="display: block; margin: auto;" /&gt;
+.footnote[https://code.earthengine.google.com/"]
 ---
-class: top 
+class: middle 
 background-image: url(images/rgee-hex.png)
-background-position: 95% 50%
-background-size: 15%
-## rgee 
+background-position: 50% 5%
+background-size: 5%
 
-#### Fotot dos meninos 
 
-##### surge como mais uma alternativa. 
-
-##### Falar da propsta do rgee e como ele acessa a API
+&lt;iframe src="https://www.theoj.org/joss-papers/joss.02272/10.21105.joss.02272.pdf" width="100%" height="450" data-external="1"&gt;&lt;/iframe&gt;
+???
+Surge como mais uma alternativa. 
+Falar da propsta do rgee e como ele acessa a API
 ---
 class: middle, center
 
+#### Comparação das sintaxes 
 .columns[
 
 .left-col[
-### r
+#### r
 
 
 ```r
 a &lt;- c(1, 2, 3)
-a
 #library(rgee)
 #ee_Initialize()
 #db &lt;- 'CGIAR/SRTM90_V4'
 #image &lt;- ee$Image(db)
 #image$bandNames()$getInfo()
-)
+#)
 ```
 
 ]
 
 .middle-col[
-### Phyton 
+#### Phyton 
 
 ```phyton
 import ee
@@ -143,7 +143,7 @@ image.bandNames().getInfo()
 
 
 .right-col[
-### JavaScript
+#### JavaScript
 
 
 ```js
@@ -151,10 +151,20 @@ var db = 'CGIAR/SRTM90_V4'
 var image = ee.Image(db)
 print(image.bandNames())
 ```
+
+
+&lt;script type="text/javascript"&gt;
+var db = 'CGIAR/SRTM90_V4'
+var image = ee.Image(db)
+print(image.bandNames())
+&lt;/script&gt;
 ]
 ]
 ---
-### Requisitos da Instalação
+
+#### Requisitos da Instalação
+&lt;br&gt;
+&lt;br&gt;
 
 - Conta do Google com o Earth Engine ativado
 
@@ -173,7 +183,7 @@ print(image.bandNames())
 
 
 ---
-##  Instalação
+####  Instalação
 
 
 ```r

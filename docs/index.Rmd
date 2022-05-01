@@ -6,7 +6,7 @@ org: " "
 date: "25 Maio 2022"
 output:
   xaringan::moon_reader:
-    anchor_sections: TRUE
+    anchor_sections: FALSE
     css: ["default", "css/theme.css", "css/fonts.css"]
     seal: false 
     lib_dir: libs
@@ -22,10 +22,6 @@ output:
       countIncrementalSlides: false
       ratio: "16:9"
 ---
-
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(eval = FALSE)
-```
 
 class: title-slide, left, middle
 background-image: url("images/rgee-hex.png")
@@ -53,7 +49,7 @@ class: middle, center
 .columns[
 
 .left-col[
-### Google Earth Engine
+### Google Earth Engine (GEE) e rgee
 
 <img style="border-radius: 50%;" src="https://img2.gratispng.com/20190319/fwp/kisspng-question-mark-information-image-portable-network-g-online-classess-online-classes-wsu-5c90886ee672e3.3688816615529759829439.jpg" width="150px"/>
 
@@ -84,61 +80,80 @@ class: middle, center
 ]
 
 ---
-class: top 
-background-image: url(images/hexes.png)
-background-position: top right
-background-size: 20%
+class: middle 
 
-## GEE
+#### GEE
 
-#### Falar de dados geosespaciais... ambinetais, utilidade. falar das anlaises qwue são feitas.  Figura do GEE 
+```{r url 1, echo=FALSE}
+knitr::include_url("https://earthengine.google.com/", height = 450)
+```
+.footnote[https://developers.google.com/earth-engine/datasets/"]
 
-#### Falar de dados geosespaciais... ambinetais, utilidade. falar das anlaises qwue são feitas.  Figura do GEE 
+???
+
+-Falar de dados geosespaciais... ambinetais, utilidade. falar das anlaises qwue são feitas.  Figura do GEE 
+-Falar que o google oferece sua infraestrutura para analise desses dados ( verificar questão de limites)
+
 ---
-## GEE 
+#### Exemlos 
 
-####  Falar que esses dados estão sendo disponibilizados em resoluções cada vez mais alta em resoluções cada vez mais finas e mostar exemplo dos pixels 
 
-#### Falar que o google oferece sua infraestrutura para analise desses dados ( verificar questão de limites)
+
+
+---
+#### Volume de dados | Resolução de dados -> Demanda por processamento de alta perfomance 
+
+```{r res, echo=FALSE, out.width="62%", fig.align="center"}
+knitr::include_graphics("images/res.png")
+```
+???
+
+---
+
+#### Contudo... JavaScript ou Phyton 
+
 --
-
-### Contudo... phtyon ou java ... Mostar a foto do code editor me java script 
-
+```{r cejs, echo=FALSE, out.width="100%", fig.align="center"}
+knitr::include_graphics("images/cejs.png")
+```
+.footnote[https://code.earthengine.google.com/"]
 ---
-class: top 
+class: middle 
 background-image: url(images/rgee-hex.png)
-background-position: 95% 50%
-background-size: 15%
-## rgee 
+background-position: 50% 5%
+background-size: 5%
 
-#### Fotot dos meninos 
 
-##### surge como mais uma alternativa. 
+```{r paper, echo=FALSE}
+knitr::include_url("https://www.theoj.org/joss-papers/joss.02272/10.21105.joss.02272.pdf", height = 450)
 
-##### Falar da propsta do rgee e como ele acessa a API
+```
+???
+Surge como mais uma alternativa. 
+Falar da propsta do rgee e como ele acessa a API
 ---
 class: middle, center
 
+#### Comparação das sintaxes 
 .columns[
 
 .left-col[
-### r
+#### r
 
 ```{r 0xaringanExtra-clipboard, echo=TRUE}
 a <- c(1, 2, 3)
-a
 #library(rgee)
 #ee_Initialize()
 #db <- 'CGIAR/SRTM90_V4'
 #image <- ee$Image(db)
 #image$bandNames()$getInfo()
-)
+#)
 ```
 
 ]
 
 .middle-col[
-### Phyton 
+#### Phyton 
 ```{phyton, echo=TRUE}
 import ee
 ee.Initialize()
@@ -150,7 +165,7 @@ image.bandNames().getInfo()
 
 
 .right-col[
-### JavaScript
+#### JavaScript
 
 ```{js, echo TRUE}
 var db = 'CGIAR/SRTM90_V4'
@@ -160,7 +175,10 @@ print(image.bandNames())
 ]
 ]
 ---
-### Requisitos da Instalação
+
+#### Requisitos da Instalação
+<br>
+<br>
 
 - Conta do Google com o Earth Engine ativado
 
@@ -179,7 +197,7 @@ print(image.bandNames())
 
 
 ---
-##  Instalação
+####  Instalação
 
 ```{r instalação, echo=TRUE, eval = FALSE, include=TRUE}
 install.packages("reticulate")
