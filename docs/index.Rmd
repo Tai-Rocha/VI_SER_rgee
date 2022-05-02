@@ -53,9 +53,6 @@ class: middle, center
 
 <img style="border-radius: 50%;" src="https://img2.gratispng.com/20190319/fwp/kisspng-question-mark-information-image-portable-network-g-online-classess-online-classes-wsu-5c90886ee672e3.3688816615529759829439.jpg" width="150px"/>
 
-[`r fontawesome::fa("github")` @apreshill](https://github.com/apreshill)    
-[`r fontawesome::fa("twitter")` @apreshill](https://twitter.com/apreshill)   
-[`r fontawesome::fa("link")` alison.rbind.io](https://alison.rbind.io)
 ]
 
 .middle-col[
@@ -63,19 +60,13 @@ class: middle, center
 
 <img style="border-radius: 50%;" src="https://user-images.githubusercontent.com/16768318/71569603-3341d680-2ac8-11ea-8787-4dd1fbba326f.png" width="150px"/>
 
-[`r fontawesome::fa("github")` @cderv](https://github.com/cderv)    
-[`r fontawesome::fa("twitter")` @chrisderv](https://twitter.com/chrisderv)   
 ]
 
-
 .right-col[
-### Um estudo de caso
+### Estudo de caso (no R)
 
 <img style="border-radius: 50%; object-fit: cover;" src="https://pbs.twimg.com/media/EgqKANjVkAEVDtb.jpg" width="150px" height="150px"/>
 
-[`r fontawesome::fa("github")` @yihui](https://github.com/yihui)    
-[`r fontawesome::fa("twitter")` @xieyihui](https://twitter.com/xieyihui)   
-[`r fontawesome::fa("link")` yihui.org](https://yihui.org/)
 ]
 ]
 
@@ -95,7 +86,7 @@ knitr::include_url("https://earthengine.google.com/", height = 450)
 -Falar que o google oferece sua infraestrutura para analise desses dados ( verificar questão de limites)
 
 ---
-#### Exemlos 
+#### Exemplos 
 
 
 
@@ -132,51 +123,16 @@ knitr::include_url("https://www.theoj.org/joss-papers/joss.02272/10.21105.joss.0
 Surge como mais uma alternativa. 
 Falar da propsta do rgee e como ele acessa a API
 ---
-class: middle, center
+class: top, center
 
-#### Comparação das sintaxes 
-.columns[
-
-.left-col[
-#### r
-
-```{r 0xaringanExtra-clipboard, echo=TRUE}
-a <- c(1, 2, 3)
-#library(rgee)
-#ee_Initialize()
-#db <- 'CGIAR/SRTM90_V4'
-#image <- ee$Image(db)
-#image$bandNames()$getInfo()
-#)
+#### Workflow 
+```{r workflow, echo=FALSE, out.width="80%", fig.align='center'}
+knitr::include_graphics("images/wf_rgee.png")
 ```
-
-]
-
-.middle-col[
-#### Phyton 
-```{phyton, echo=TRUE}
-import ee
-ee.Initialize()
-db = 'CGIAR/SRTM90_V4'
-image = ee.Image(db)
-image.bandNames().getInfo()
-```
-]
-
-
-.right-col[
-#### JavaScript
-
-```{js, echo TRUE}
-var db = 'CGIAR/SRTM90_V4'
-var image = ee.Image(db)
-print(image.bandNames())
-```
-]
-]
+.footnote[https://r-spatial.github.io/rgee/"]
 ---
 
-#### Requisitos da Instalação
+#### Requisitos da instalção 
 <br>
 <br>
 
@@ -194,46 +150,9 @@ print(image.bandNames())
 2- Ter uma versão do Pyhton maior 3.5 instalada no seu sistema 
 3- 
 
-
-
 ---
-####  Instalação
+##### Referências
 
-```{r instalação, echo=TRUE, eval = FALSE, include=TRUE}
-install.packages("reticulate")
-
-install.packages("rgee")
-
-#rgee::ee_install()
-```
-
-#### Ou
-
-```{r 2instalação via library, echo=TRUE, eval = FALSE, include=TRUE}
-#library(rgee)
-
-#ee::install
-```
----
-#### Após instalado e carregado 
-
-```{r initilize, echo=TRUE, eval = FALSE, include=TRUE}
-# Initialize Earth Engine!
-rgee::ee_Initialize()
-
-```
-
-### Adidionalmente 
-
-
-```{r checks, echo=TRUE, eval = FALSE, include=TRUE}
-ee_check() # Check non-R dependencies
-ee_clean_credentials() # Remove credentials of a specific user
-ee_clean_pyenv() # Remove reticulate system variables
-```
-
----
-##### Alguns estudos de casos  . Mãos a obra 
 
 ---
 name: hello
