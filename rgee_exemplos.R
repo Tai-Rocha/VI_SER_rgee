@@ -103,7 +103,7 @@ ee_nc_rain |>
   ggplot2::ylab("Precipitation (mm)") +
   ggplot2::theme_minimal()
 
-# Estatítica por grid 
+#Estudo de caso 2: médias 
 
 dat <- structure(list(ID = 758432:758443, 
                       lat = c(-14.875, -14.875, -14.625, -14.625, -14.875, -14.875, -14.625, -14.625, -14.375, -14.375, -14.125, -14.125), 
@@ -114,35 +114,38 @@ dat <- structure(list(ID = 758432:758443,
 dat_rast <- raster::rasterFromXYZ(dat[, c('lon', 'lat', 'ID')], crs = '+proj=longlat +datum=WGS84 +no_defs')
 dat_poly <- raster::rasterToPolygons(dat_rast, fun=NULL, na.rm=TRUE, dissolve=FALSE)
 
+# Trasformando o dado vetorial em um objeto ee$FeatureCollection  
+
+coords <- as.data.frame(raster::geom(dat_poly))
+
+polygonsFeatures <- coords %>% 
+  split(.$object) %>% 
+  purrr::map(~{  
+    ee$Feature(ee$Geometry$Polygon(mapply( function(x,y){list(x,y)} ,.x$x,.x$y,SIMPLIFY=F)))
+  })
+
+polygonsCollection = ee$FeatureCollection(unname(polygonsFeatures))
+Map$addLayer(polygonsCollection)
+
 
 # Selecionando algns dias 
 startDate = ee$Date('2020-01-01');
 endDate = ee$Date('2020-01-10');
 
 
-# Open dataset
+# Acessando o dado de clima (temperatura mínima e máxima)
+
 ImageCollection = ee$ImageCollection('NASA/NEX-GDDP')$filter(ee$Filter$date(startDate, endDate))#$filterBounds(polygonsCollection)
 
-# Polygons collection
-coords <- as.data.frame(raster::geom(dat_poly))
+# Pegando lista de imagens ( um por dia)
 
-polygonsFeatures <- coords %>% 
-  split(.$object) %>% 
-  purrr::map(~{  
-  ee$Feature(ee$Geometry$Polygon(mapply( function(x,y){list(x,y)} ,.x$x,.x$y,SIMPLIFY=F)))
-})
-
-polygonsCollection = ee$FeatureCollection(unname(polygonsFeatures))
-Map$addLayer(polygonsCollection)
-
-
-# Get list of images (1 per day)
 ListOfImages = ImageCollection$toList(ImageCollection$size());
 
-# first image
+# Primeira imagem
 image <- ee$Image(ListOfImages$get(0))
 
 # Add the mean of each band as new properties of each polygon
+
 Means = image$reduceRegions(collection = polygonsCollection,reducer= ee$Reducer$mean())
 Means$getInfo()
 
