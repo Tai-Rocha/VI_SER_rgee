@@ -3,61 +3,52 @@
 ## rgee: um pacote em R para acessar o Google Earth Engine(GEE)
 ## Autor do códgigo: Tainá Rocha & Adapções de exemplos disponíveis na documentação oficial do pacote  
 ## Data: 26 de Maio de 2022
-## Versão do R
-## Versão do rgee:
+## Versão do R: 4.2.0
+## Versão do rgee: 1.1.3
 ## Roteiro do script:
-## 1 Instalações --------------------------------------------------------------------------------
-## 2 Comandos por seção -------------------------------------------------------------------------
-## 3 Estudos de caso ----------------------------------------------------------------------------
+## 1 Instalações  -------------------------------------------------------------------------------
+## 2 Funções por seção e sintaxe(ee_ x ee$) -----------------------------------------------------
+## 3 Estudos de caso (3) ------------------------------------------------------------------------
 
 ######################################################################################################
 
 
-#1 Instalações e sintaxe de rgee  -------------------------------------------------------------
+#1 Instalações e sintaxe de rgee (ee_ x ee$)  -------------------------------------------------------------
 
 # Requsitos:
-#1- Conta no Google com Earth Engine ativado
-#2- Python >= v3.5
+# Conta no Google com Earth Engine ativado
+# Python >= v3.5
 
-install.packages("rgee") # uma vez
+install.packages("rgee") # intalação parte 1- uma vez geralmente 
 
-library(rgee) #sempre que incicar a seção ou
-
-# ee_ 
-# ee_instal()
-# Ou rgee:: 
-
-## Aproveitando a deixa dos rgee::  ee$
-
-rgee::ee$Classifier$amnhMaxent(....)
-
-# Ou seja: rgee vai funcionar de acordo com duas sintaxes ee_ ou ee$
-
-
-# Logo após a instalação, é preciso de fazer algumas instalções
-
-library(rgee)
+library(rgee) 
+# ee_instal() # instalção parte 2- uma vez geralmente 
 
 ee_install()
+# Numpy- trabalha com objetos do tipo array, ex.:matrizes multi-dimensioais);
+# ee - pacote para intergagir com a API Python do GEE)
+# Detalhes sobre a instalaçao disponíveis no conteúdo da apresentação
 
-# ou pacote::
-
-rgee::ee_install() # apenas uma  vez. Fazer logo após a instalação do rgee
-
-
-# rgee é depende de Phyton, por isso precisamos instalar os seguinte os pacotes phyton:
-# `Numpy`- trabalha com objetos do tipo array, ex.:matrizes multi-dimensioais);
-# `ee` - pacote para intergagir com a API e GEE em Python )
-## Esta intalação pode ser feita de três maneiras após instalar o rgee (ver detalhes refências da apesentação). Geralmente é preciso ser feito uma vez só).
-## Detalhes sobre a instalaçao ver na seção de referências da apresentação
-
-#2 Comandos por seção ----------------------------------------------------
+#2 Comandos por seção e e sintaxe(ee_ x ee$) ----------------------------------------------------
 
 library(rgee) 
 
-rgee::ee_check()
+## ee_check()
 
-rgee::ee_Initialize()
+rgee::ee_check() # de bom tom sempre inciar uma nova seção do R ou R studio e for usar o rgee
+
+# ee_Initialize()
+rgee::ee_Initialize() # Obrigatório ao inciar uma nova seção do R ou R studio e for usar o rgee
+
+# Sintaxe(ee_ x ee$)
+
+## ee_
+
+# Outra maneira
+
+#rgee::ee
+
+#rgee::ee$Classifier$amnhMaxent(....)
 
 #3 Estudos de caso ---------------------------------------------------------
 
@@ -69,26 +60,25 @@ rgee::ee_Initialize()
 library(dplyr) # manipulação dos dados (dataframe)
 library(geojsonio) # Converte dados para 'GeoJSON'  
 library(ggplot2) # gráficos 
-library(rgee) # obtenção dos dados / esatíticas 
+library(rgee) # obtenção dos dados / estíticas 
 library(raster) # manipualção de dados vetoriais e matriciais 
 library(sf)   # manipulação de dados vetoriais 
 library(tidyr) # manipulação dos dados (dataframe)
 
 
-# Lendo o dado vetorial 
+# Lendo o dado vetorial - área de estudo
 nc_shape <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE) 
 
 # Plotando o dado
 plot(sf::st_geometry(nc_shape)) #plotando 
 
-# Pipiline para acessar o dado, fazer um recorte temporal, selecionar a variável de interesse (prec) e renomear.
+# Pipiline para acessar o dado de precipatção, fazer um recorte temporal, selecionar a variável de interesse (prec) e renomear.
 
 terraclimate <- ee$ImageCollection("IDAHO_EPSCOR/TERRACLIMATE") |> 
   ee$ImageCollection$filterDate("2001-01-01", "2002-01-01") |> 
   ee$ImageCollection$map(function(x) x$select("pr")) |>  # Selecionar bandas de precipitação
   ee$ImageCollection$toBands() |>  # converter de um objeto imagecollection para objeto image
   ee$Image$rename(sprintf("PP_%02d",1:12)) # renomeando as bandas 
-
 
 # Extraindo 
 ee_nc_rain <- ee_extract(x = terraclimate, y = nc_shape["NAME"], sf = FALSE)
@@ -103,7 +93,10 @@ ee_nc_rain |>
   ggplot2::ylab("Precipitation (mm)") +
   ggplot2::theme_minimal()
 
-#Estudo de caso 2: médias 
+#Estudo de caso 2: obtendo estatícas por grids 
+
+library(purrr)
+library(raster)
 
 dat <- structure(list(ID = 758432:758443, 
                       lat = c(-14.875, -14.875, -14.625, -14.625, -14.875, -14.875, -14.625, -14.625, -14.375, -14.375, -14.125, -14.125), 
@@ -114,6 +107,8 @@ dat <- structure(list(ID = 758432:758443,
 dat_rast <- raster::rasterFromXYZ(dat[, c('lon', 'lat', 'ID')], crs = '+proj=longlat +datum=WGS84 +no_defs')
 dat_poly <- raster::rasterToPolygons(dat_rast, fun=NULL, na.rm=TRUE, dissolve=FALSE)
 
+plot(dat_poly)
+
 # Trasformando o dado vetorial em um objeto ee$FeatureCollection  
 
 coords <- as.data.frame(raster::geom(dat_poly))
@@ -121,41 +116,46 @@ coords <- as.data.frame(raster::geom(dat_poly))
 polygonsFeatures <- coords %>% 
   split(.$object) %>% 
   purrr::map(~{  
-    ee$Feature(ee$Geometry$Polygon(mapply( function(x,y){list(x,y)} ,.x$x,.x$y,SIMPLIFY=F)))
+    rgee::ee$Feature(ee$Geometry$Polygon(mapply( function(x,y){list(x,y)} ,.x$x,.x$y,SIMPLIFY=F)))
   })
 
-polygonsCollection = ee$FeatureCollection(unname(polygonsFeatures))
-Map$addLayer(polygonsCollection)
+polygonsCollection <- rgee::ee$FeatureCollection(unname(polygonsFeatures))
 
-
-# Selecionando algns dias 
-startDate = ee$Date('2020-01-01');
-endDate = ee$Date('2020-01-10');
+# Plotando 
+rgee::Map$addLayer(polygonsCollection)
 
 
 # Acessando o dado de clima (temperatura mínima e máxima)
 
-ImageCollection = ee$ImageCollection('NASA/NEX-GDDP')$filter(ee$Filter$date(startDate, endDate))#$filterBounds(polygonsCollection)
+# Selecionando alguns dias 
+
+startDate <- rgee::ee$Date('2020-01-01');
+endDate <- rgee::ee$Date('2020-01-10');
+
+ImageCollection <- rgee::ee$ImageCollection('NASA/NEX-GDDP')$filter(ee$Filter$date(startDate, endDate))
 
 # Pegando lista de imagens ( um por dia)
 
-ListOfImages = ImageCollection$toList(ImageCollection$size());
+ListOfImages <- ImageCollection$toList(ImageCollection$size());
+
 
 # Primeira imagem
-image <- ee$Image(ListOfImages$get(0))
+image <- rgee::ee$Image(ListOfImages$get(8))
+image$getInfo()
 
-# Add the mean of each band as new properties of each polygon
+# Média
 
-Means = image$reduceRegions(collection = polygonsCollection,reducer= ee$Reducer$mean())
+Means <- image$reduceRegions(collection = polygonsCollection,reducer= ee$Reducer$mean())
 Means$getInfo()
 
 
-## The polygons data can be downloaded on Google Drive:
+#
 
-task_vector <- ee_table_to_drive(
+output_mean <- rgee::ee_table_to_drive(
   collection = Means,
   fileFormat = "CSV",
   fileNamePrefix = "test"
 )
-task_vector$start()
-ee_monitoring(task_vector)
+output_mean$start()
+
+ee_monitoring(output_mean)

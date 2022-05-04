@@ -2,7 +2,7 @@
 title: " VI SER<br><br>  Uma pacote em R para acessar o Google Earth Engine" 
 author: "Tainá Rocha"
 role: Environmental and Biodiversity Data Scientist <br> Biologist | MSc. in Environmental biology | PhD. in Zoology 
-org: " "
+org: "  "
 date: "25 Maio 2022"
 output:
   xaringan::moon_reader:
@@ -19,7 +19,7 @@ output:
       highlightStyle: solarized-light
       highlightLanguage: ["r", "css", "yaml"]
       highlightLines: true
-      countIncrementalSlides: false
+      countIncrementalSlides: true
       ratio: "16:9"
 ---
 
@@ -33,13 +33,17 @@ background-color: #F9F8F3
 
 # `r rmarkdown::metadata$title`
 
-### `r rmarkdown::metadata$author`, Ph.D.
+### `r rmarkdown::metadata$author`
 
 ### `r rmarkdown::metadata$org`
 
 ### `r rmarkdown::metadata$date`
 ]
 
+???
+
+Olá me chamo Tainá, sou bióloga de formação, fiz um mestrado em biologia ambiental pela UFPA e doutorado em zoologia pelo Museu Emílio Goeldi. Atualmente sou pesquisadora, eu atuo num de labo. do departamento de geografia da universidade estadual da Florida. E também  sou consultora do Centro Nacional de Conservação da Flora Brasil do Jardim Botânico do RJ.
+E resumidamente e faço pesquisa com foco em biodiversidade e mudanças globais (principalmente mudanças climáticas). E um ferramente que tenho explorado mais é o rgee ( um pacote em R que). Então a ideia é compartilhar com vocês essa experiência.  
 
 ---
 class: middle, center
@@ -49,27 +53,30 @@ class: middle, center
 .columns[
 
 .left-col[
-### Google Earth Engine (GEE) e rgee
+### Google Earth Engine (GEE) 
 
-<img style="border-radius: 50%;" src="https://img2.gratispng.com/20190319/fwp/kisspng-question-mark-information-image-portable-network-g-online-classess-online-classes-wsu-5c90886ee672e3.3688816615529759829439.jpg" width="150px"/>
+<img style="border-radius: 10%;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLwrQRYaOp9w2ruizrbv-3vK2jDkvUSN59Kw&usqp=CAU" width="150px"/>
 
 ]
 
 .middle-col[
-### Requisitos de Instalção <br> e Funções Básicas  
+### rgee
 
-<img style="border-radius: 50%;" src="https://user-images.githubusercontent.com/16768318/71569603-3341d680-2ac8-11ea-8787-4dd1fbba326f.png" width="150px"/>
+<img style="border-radius: 10%;" src="https://user-images.githubusercontent.com/16768318/118376965-5f7dca80-b5cb-11eb-9a82-47876680a3e6.png" width="150px"/>
 
 ]
 
 .right-col[
 ### Estudo de caso (no R)
 
-<img style="border-radius: 50%; object-fit: cover;" src="https://pbs.twimg.com/media/EgqKANjVkAEVDtb.jpg" width="150px" height="150px"/>
+<img style="border-radius: 10%; object-fit: cover;" src="https://pbs.twimg.com/media/EgqKANjVkAEVDtb.jpg" width="200px" height="200px"/>
 
 ]
 ]
 
+???
+
+Eu vou falar um pouco sobre o que Google Earth Engine e rgee
 ---
 class: middle 
 
@@ -82,15 +89,9 @@ knitr::include_url("https://earthengine.google.com/", height = 450)
 
 ???
 
--Falar de dados geosespaciais... ambinetais, utilidade. falar das anlaises qwue são feitas.  Figura do GEE 
--Falar que o google oferece sua infraestrutura para analise desses dados ( verificar questão de limites)
-
----
-#### Exemplos 
-
-
-
-
+- É uma plataforma que que além de hospedar dados geoespaciais, oferece uma infraesturtura para analise desses dados. 
+- Aqui na página inicial você encontra várias informações interessantes,sobre como funciona essa infraestrutura. Econbtra também a informações sobre os dados. Se vocẽs clicarem aqui vocês são direcionados para a página do catálogo de dados, onde vocfê podem acessar os mais diferentes tipos de dados, ou procurar por algum por outros dados.
+- E o  grande potencial da plataforma, pelo menos até agora é possibilidade de acessar gratutitamente um serviço de alta pefomance. Pricipalmente quanto as análises . E agora eu volto para os slides.
 ---
 #### Volume de dados | Resolução de dados -> Demanda por processamento de alta perfomance 
 
@@ -98,16 +99,20 @@ knitr::include_url("https://earthengine.google.com/", height = 450)
 knitr::include_graphics("images/res.png")
 ```
 ???
-
+- Para enteder que não é só o fato de mais dados estarem disponíveis. Os dados estão sendo dispobilizados em alta resolução. 
+- Aqui nessa figura são dados to tipo ratser, dados matricias. Basicamente uma imagem composta por pixels. Cade pixel aqui carrega uma informaçõa, nesse caso aqui é informaçõa de temperatura, ou seja eu tenho valores de tenperatura para cada pixel.  E numa resolução grosseira existem menos pixes para anlaisamos, ele são mairores em tamanho , porém menor em quatidade, ou seja eu vou ter poucos valores pra nalisar. è o cotrário de uma dados em alta resolução onde o numero de pixeis aumenta exponecilamnete, e aí a gente passa a ter muito valores para analisar o que gera uma demanda de alta perfomance. E daí a importancia de um aplataforma com o Engine.  
 ---
 
-#### Contudo... JavaScript ou Phyton 
+#### Infraestrutura do GEE - JavaScript ou Phyton 
 
 --
 ```{r cejs, echo=FALSE, out.width="100%", fig.align="center"}
 knitr::include_graphics("images/cejs.png")
 ```
 .footnote[https://code.earthengine.google.com/"]
+???
+Contudo, a google disponibiliza este serviço em Javascript ou Phyton... Na verdade o editor próprio da plataforma engine e em JS. E isso acaba gerando alguma restrição para quem não tem habilidade com essas linguagens. 
+
 ---
 class: middle 
 background-image: url(images/rgee-hex.png)
@@ -120,8 +125,9 @@ knitr::include_url("https://www.theoj.org/joss-papers/joss.02272/10.21105.joss.0
 
 ```
 ???
-Surge como mais uma alternativa. 
-Falar da propsta do rgee e como ele acessa a API
+- E foi assim que esse grupo de pesquisadores de diferentes departamentos criaram a alternativa em R para o acesso ao Google Earth Engine. Para nossa sorte. 
+
+- Aqui nesse artigo vocês econtram várias informções sobre o rgee. E o pacote também já está no cran. 
 ---
 class: top, center
 
@@ -130,26 +136,8 @@ class: top, center
 knitr::include_graphics("images/wf_rgee.png")
 ```
 .footnote[https://r-spatial.github.io/rgee/"]
----
-
-#### Requisitos da instalção 
-<br>
-<br>
-
-- Conta do Google com o Earth Engine ativado
-
-- Python >= v3.5
-
-- EarthEngine Python API (Python package)
-
 ???
-
-É IMPORTANTE SABER QUE EXISTEM ALGUNS REQUISITOS PARA QUE SE CONSIGA INSTALAR ADEQUADAMENTE O PACOTE . Caso vocẽ naõ tenha ... será um pouco mis trablahoso, m,as eu vejo muita gente desistindo nocomeço por conta disso. do que de costume em relação a outros pacotes em R. Por isso é importante saber que existem prerequisitos . Eu vou citar brevemente esses prequeisitos poruqe eu obervei em fóruns, grupos de R, issues no github que muitos usuários, inclsuive não só iniciantes podem encontrar algumas dificuldades para instalação do rgee por cota desses prequeitas. Então é precios ter em mente que antes da comando convencional antes do comando convencional (install package) para intalação, os usuários devem :
-
-1- Possuir uma conta no google (https://earthengine.google.com)
-2- Ter uma versão do Pyhton maior 3.5 instalada no seu sistema 
-3- 
-
+- Esse aqui é fluxo de trablaho do rgee. E __________
 ---
 ##### Referências
 
@@ -170,4 +158,61 @@ class: middle, center, inverse
 [`r fontawesome::fa("github")` @Tai-Rocha](https://github.com/Tai-Rocha)    
 [`r fontawesome::fa("twitter")` @Tai_Rocha_](https://twitter.com/Tai_Rocha_)   
 [`r fontawesome::fa("link")` tainaweb-en.netlify.app](https://tainaweb-en.netlify.app/)
+
+???
+
+- Conta do Google com o Earth Engine ativado
+
+- Python >= v3.5
+
+- EarthEngine Python API (Python package)
+
+???
+
+### Eu dividi o código em 3 seções:
+1- Na primeira eu vou falar rapidamente dos pre requisitos para a instalação do rgee e outras instalações necessárias e já vou aproveitar pra falar um pouco da sintaxe do pacote.
+2- Falarei brevemente sobre comandos que na verdade são funções que precisamos executar ao iniciar cada seção do R e rstudio.
+3- Termino com 3 estudos de caso. Su eu me prolongar vou me ater 2 estudos de caso, mas esse código será disponibilizado com os 3. 
+
+### Requsitos:
+1- Conta no Google com Earth Engine ativado
+2- Você precisa também ter o Python instalado na sua máquina na versão >= v3.5
+
+E só então você vai conseguir instalar o rgee via install.packages. NO geral é um comando que vcê sobre executar uma unica vez, a menos q você formate seu computador, ou desinstale e reinstale o R. Enfim só nessas circunstancias.
+
+Eu não vou executar esse comando porque eu rgee já está instalado. Porém, pra conseguir usar plenamente o rgee... usar todas funções, outras instalações são necessárias. E essas instalações se fazem com uma função do próprio rgee ee_install. 
+
+Eu não vou executar porque eu já tenho tudo instalado. Mas só pra saber do que se trata, o ee_install cria um ambiente virtual phtyon para instalar as dependencias necessárias. E são elas Numpy e ee.
+
+E no geral o ee_install assim como install.package só se execeutar uma vez, mas isso geral, as vezes você precisa reeintalar seu ambiental virtual... que no meu caso está bem aqui  
+
+Detalhes de instalaçaões disponíveis nos links da referncias. Essa parte da instalção não étão convencional como eu outros pacotes de R, por isso eu gosto de falar um pouco mais pq eu ja obervei em foruns e gruopos que existe certa difucldade, por que esses detlahes passam despercebidos.
+
+### Segunda parte
+Essa segunda parte é bem curtinha. É SÓ pra vocẽs terem em mente que existem algumas funções que precisamos executar sempre, nesse caso, a cada vez que você abre e inicia uma nova seção do R e Rstudio  
+
+o library é o mais óbvio porque carrega o pacote que já instalado, mas eu costumo usar a sintaxe rgee::seguido da função e isso dispensa o carregamente via library. Mas o usuário fica avonatde pra usar o que preferir.
+
+Então pra turma do library, além de carregar o pacote, sempre q inciar uma seção e for usar o rgee
+
+é de bom tom começar com rgee:: ee_chech... que vfará um check da dependecia em phtyon. Executando  esse comando, aqui esta tudo ok ele me diz q está tudo ok ... ou seja, teoricanete eu vou consegui usar todas a funções.
+
+O outro comando é ee_Initialize e esse aqui é orbigatŕoio cada vez vc abre ser R/Rstudio... você só vai conseguir usar o rgee com esse comando. Vamos dar uma olhada no que faz esse comando.... o ee-intitilaize nada mais é do que uma autenticação para autorizar o acesso do rgee aos serviços do Earth Engine, Google drive, google cloud ... e isso pq as opções para salvar os resultados das suas análises é via google drive ou cloud storage.
+
+Bom dito isso, vamos executar o comando para começar usar o rgee.
+quando está tudo verdinho é pq está tudo ok. Então podemos começar. 
+
+E eu vou começar mostrando a sintaxe do rgee.
+Você verão que todas as funções do rgee omeção com ee_  e como eu ja carreguei o pacote se eu digitar esse prefixo aparece essa caixa com todas as funções do pacote.
+
+Outra maneira como já mostrei é usando rgee:: e bovamente abre a caixa com todas as funções, mas observem que agora existe uma outra classe de função que começa com ee, na verdade veremos que é ee$ifrão. Mas só pra entender melhor a diferença o eeSifrão são as funções originais do Earth Engine, já as funções ee_ são nativamente em R.
+
+E só pra vocês verem aqui nesse exemplo ... essas funções tem instancias. Por exemploo Classifer que uma função para classifcação supervsionada...e aí vcê pode acessar diferntes classificadores por exemplo o maxente . e ai vcê entra com argumentos desse clafficador os parãmetros.
+
+o ee_ e como o pacote já está carregado e abre automaticamete a caixa mostrando todas as funções
+
+### E agora finalemnte chegamos nos estudos de caso onde veremos o uso do rgee na vida real e sua utilidade. 
+
+Alguns são exemplo da documentão outros são modifcados, mas exemplo sã exemplos que usei relamente nas minhas alíses pricnipamen o estudo de caso 1 .
+
 

@@ -23,13 +23,17 @@ background-color: #F9F8F3
 
 #  VI SER&lt;br&gt;&lt;br&gt;  Uma pacote em R para acessar o Google Earth Engine
 
-### Tainá Rocha, Ph.D.
+### Tainá Rocha
 
-###  
+###   
 
 ### 25 Maio 2022
 ]
 
+???
+
+Olá me chamo Tainá, sou bióloga de formação, fiz um mestrado em biologia ambiental pela UFPA e doutorado em zoologia pelo Museu Emílio Goeldi. Atualmente sou pesquisadora, eu atuo num de labo. do departamento de geografia da universidade estadual da Florida. E também  sou consultora do Centro Nacional de Conservação da Flora Brasil do Jardim Botânico do RJ.
+E resumidamente e faço pesquisa com foco em biodiversidade e mudanças globais (principalmente mudanças climáticas). E um ferramente que tenho explorado mais é o rgee ( um pacote em R que). Então a ideia é compartilhar com vocês essa experiência.  
 
 ---
 class: middle, center
@@ -39,27 +43,30 @@ class: middle, center
 .columns[
 
 .left-col[
-### Google Earth Engine (GEE) e rgee
+### Google Earth Engine (GEE) 
 
-&lt;img style="border-radius: 50%;" src="https://img2.gratispng.com/20190319/fwp/kisspng-question-mark-information-image-portable-network-g-online-classess-online-classes-wsu-5c90886ee672e3.3688816615529759829439.jpg" width="150px"/&gt;
+&lt;img style="border-radius: 10%;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLwrQRYaOp9w2ruizrbv-3vK2jDkvUSN59Kw&amp;usqp=CAU" width="150px"/&gt;
 
 ]
 
 .middle-col[
-### Requisitos de Instalção &lt;br&gt; e Funções Básicas  
+### rgee
 
-&lt;img style="border-radius: 50%;" src="https://user-images.githubusercontent.com/16768318/71569603-3341d680-2ac8-11ea-8787-4dd1fbba326f.png" width="150px"/&gt;
+&lt;img style="border-radius: 10%;" src="https://user-images.githubusercontent.com/16768318/118376965-5f7dca80-b5cb-11eb-9a82-47876680a3e6.png" width="150px"/&gt;
 
 ]
 
 .right-col[
 ### Estudo de caso (no R)
 
-&lt;img style="border-radius: 50%; object-fit: cover;" src="https://pbs.twimg.com/media/EgqKANjVkAEVDtb.jpg" width="150px" height="150px"/&gt;
+&lt;img style="border-radius: 10%; object-fit: cover;" src="https://pbs.twimg.com/media/EgqKANjVkAEVDtb.jpg" width="200px" height="200px"/&gt;
 
 ]
 ]
 
+???
+
+Eu vou falar um pouco sobre o que Google Earth Engine e rgee
 ---
 class: middle 
 
@@ -70,28 +77,26 @@ class: middle
 
 ???
 
--Falar de dados geosespaciais... ambinetais, utilidade. falar das anlaises qwue são feitas.  Figura do GEE 
--Falar que o google oferece sua infraestrutura para analise desses dados ( verificar questão de limites)
-
----
-#### Exemplos 
-
-
-
-
+- É uma plataforma que que além de hospedar dados geoespaciais, oferece uma infraesturtura para analise desses dados. 
+- Aqui na página inicial você encontra várias informações interessantes,sobre como funciona essa infraestrutura. Econbtra também a informações sobre os dados. Se vocẽs clicarem aqui vocês são direcionados para a página do catálogo de dados, onde vocfê podem acessar os mais diferentes tipos de dados, ou procurar por algum por outros dados.
+- E o  grande potencial da plataforma, pelo menos até agora é possibilidade de acessar gratutitamente um serviço de alta pefomance. Pricipalmente quanto as análises . E agora eu volto para os slides.
 ---
 #### Volume de dados | Resolução de dados -&gt; Demanda por processamento de alta perfomance 
 
 &lt;img src="images/res.png" width="62%" style="display: block; margin: auto;" /&gt;
 ???
-
+- Para enteder que não é só o fato de mais dados estarem disponíveis. Os dados estão sendo dispobilizados em alta resolução. 
+- Aqui nessa figura são dados to tipo ratser, dados matricias. Basicamente uma imagem composta por pixels. Cade pixel aqui carrega uma informaçõa, nesse caso aqui é informaçõa de temperatura, ou seja eu tenho valores de tenperatura para cada pixel.  E numa resolução grosseira existem menos pixes para anlaisamos, ele são mairores em tamanho , porém menor em quatidade, ou seja eu vou ter poucos valores pra nalisar. è o cotrário de uma dados em alta resolução onde o numero de pixeis aumenta exponecilamnete, e aí a gente passa a ter muito valores para analisar o que gera uma demanda de alta perfomance. E daí a importancia de um aplataforma com o Engine.  
 ---
 
-#### Contudo... JavaScript ou Phyton 
+#### Infraestrutura do GEE - JavaScript ou Phyton 
 
 --
 &lt;img src="images/cejs.png" width="100%" style="display: block; margin: auto;" /&gt;
 .footnote[https://code.earthengine.google.com/"]
+???
+Contudo, a google disponibiliza este serviço em Javascript ou Phyton... Na verdade o editor próprio da plataforma engine e em JS. E isso acaba gerando alguma restrição para quem não tem habilidade com essas linguagens. 
+
 ---
 class: middle 
 background-image: url(images/rgee-hex.png)
@@ -101,34 +106,17 @@ background-size: 5%
 
 &lt;iframe src="https://www.theoj.org/joss-papers/joss.02272/10.21105.joss.02272.pdf" width="100%" height="450" data-external="1"&gt;&lt;/iframe&gt;
 ???
-Surge como mais uma alternativa. 
-Falar da propsta do rgee e como ele acessa a API
+- E foi assim que esse grupo de pesquisadores de diferentes departamentos criaram a alternativa em R para o acesso ao Google Earth Engine. Para nossa sorte. 
+
+- Aqui nesse artigo vocês econtram várias informções sobre o rgee. E o pacote também já está no cran. 
 ---
 class: top, center
 
 #### Workflow 
 &lt;img src="images/wf_rgee.png" width="80%" style="display: block; margin: auto;" /&gt;
 .footnote[https://r-spatial.github.io/rgee/"]
----
-
-#### Requisitos da instalção 
-&lt;br&gt;
-&lt;br&gt;
-
-- Conta do Google com o Earth Engine ativado
-
-- Python &gt;= v3.5
-
-- EarthEngine Python API (Python package)
-
 ???
-
-É IMPORTANTE SABER QUE EXISTEM ALGUNS REQUISITOS PARA QUE SE CONSIGA INSTALAR ADEQUADAMENTE O PACOTE . Caso vocẽ naõ tenha ... será um pouco mis trablahoso, m,as eu vejo muita gente desistindo nocomeço por conta disso. do que de costume em relação a outros pacotes em R. Por isso é importante saber que existem prerequisitos . Eu vou citar brevemente esses prequeisitos poruqe eu obervei em fóruns, grupos de R, issues no github que muitos usuários, inclsuive não só iniciantes podem encontrar algumas dificuldades para instalação do rgee por cota desses prequeitas. Então é precios ter em mente que antes da comando convencional antes do comando convencional (install package) para intalação, os usuários devem :
-
-1- Possuir uma conta no google (https://earthengine.google.com)
-2- Ter uma versão do Pyhton maior 3.5 instalada no seu sistema 
-3- 
-
+- Esse aqui é fluxo de trablaho do rgee. E __________
 ---
 ##### Referências
 
@@ -144,12 +132,27 @@ class: middle, center, inverse
 
 ### Environmental and Biodiversity Data Scientist &lt;br&gt; Biologist | MSc. in Environmental biology | PhD. in Zoology
 
-###  
+###   
 
 [<svg aria-hidden="true" role="img" viewBox="0 0 496 512" style="height:1em;width:0.97em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg> @Tai-Rocha](https://github.com/Tai-Rocha)    
 [<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg> @Tai_Rocha_](https://twitter.com/Tai_Rocha_)   
 [<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg> tainaweb-en.netlify.app](https://tainaweb-en.netlify.app/)
 
+???
+
+- Conta do Google com o Earth Engine ativado
+
+- Python &gt;= v3.5
+
+- EarthEngine Python API (Python package)
+
+???
+
+É IMPORTANTE SABER QUE EXISTEM ALGUNS REQUISITOS PARA QUE SE CONSIGA INSTALAR ADEQUADAMENTE O PACOTE . Caso vocẽ naõ tenha ... será um pouco mis trablahoso, m,as eu vejo muita gente desistindo nocomeço por conta disso. do que de costume em relação a outros pacotes em R. Por isso é importante saber que existem prerequisitos . Eu vou citar brevemente esses prequeisitos poruqe eu obervei em fóruns, grupos de R, issues no github que muitos usuários, inclsuive não só iniciantes podem encontrar algumas dificuldades para instalação do rgee por cota desses prequeitas. Então é precios ter em mente que antes da comando convencional antes do comando convencional (install package) para intalação, os usuários devem :
+
+1- Possuir uma conta no google (https://earthengine.google.com)
+2- Ter uma versão do Pyhton maior 3.5 instalada no seu sistema 
+3- ccc
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
@@ -158,7 +161,7 @@ class: middle, center, inverse
 "highlightStyle": "solarized-light",
 "highlightLanguage": ["r", "css", "yaml"],
 "highlightLines": true,
-"countIncrementalSlides": false,
+"countIncrementalSlides": true,
 "ratio": "16:9"
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
