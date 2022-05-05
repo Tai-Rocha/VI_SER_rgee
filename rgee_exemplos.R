@@ -13,7 +13,7 @@
 ######################################################################################################
 
 
-#1 Instalações e sintaxe de rgee (ee_ x ee$)  -------------------------------------------------------------
+#1 Instalações ----------------------------------------------------------------------------------------
 
 # Requsitos:
 # Conta no Google com Earth Engine ativado
@@ -21,21 +21,21 @@
 
 install.packages("rgee") # intalação parte 1- uma vez geralmente 
 
-library(rgee) 
 # ee_instal() # instalção parte 2- uma vez geralmente 
 
+library(rgee) 
 ee_install()
-# Numpy- trabalha com objetos do tipo array, ex.:matrizes multi-dimensioais);
-# ee - pacote para intergagir com a API Python do GEE)
-# Detalhes sobre a instalaçao disponíveis no conteúdo da apresentação
+# Numpy- pacote para manipulação de objetos do tipo array, ex.:matrizes multi-dimensioais;
+# ee - pacote para intergagir com a API Python do GEE
+# Detalhes sobre a instalaçao disponíveis nas refências da apresentação
 
 #2 Comandos por seção e e sintaxe(ee_ x ee$) ----------------------------------------------------
 
 library(rgee) 
 
-## ee_check()
+# ee_check()
 
-rgee::ee_check() # de bom tom sempre inciar uma nova seção do R ou R studio e for usar o rgee
+rgee::ee_check() # de bom tom sempre inciar uma nova seção do R/Rstudio e for usar o rgee
 
 # ee_Initialize()
 rgee::ee_Initialize() # Obrigatório ao inciar uma nova seção do R ou R studio e for usar o rgee
@@ -48,7 +48,7 @@ rgee::ee_Initialize() # Obrigatório ao inciar uma nova seção do R ou R studio
 
 #rgee::ee
 
-#rgee::ee$Classifier$amnhMaxent(....)
+#rgee::ee$Classifier$amnhMaxent(__________)
 
 #3 Estudos de caso ---------------------------------------------------------
 
@@ -80,6 +80,7 @@ terraclimate <- ee$ImageCollection("IDAHO_EPSCOR/TERRACLIMATE") |>
   ee$ImageCollection$toBands() |>  # converter de um objeto imagecollection para objeto image
   ee$Image$rename(sprintf("PP_%02d",1:12)) # renomeando as bandas 
 
+
 # Extraindo 
 ee_nc_rain <- ee_extract(x = terraclimate, y = nc_shape["NAME"], sf = FALSE)
 
@@ -93,10 +94,11 @@ ee_nc_rain |>
   ggplot2::ylab("Precipitation (mm)") +
   ggplot2::theme_minimal()
 
-#Estudo de caso 2: obtendo estatícas por grids 
+#Estudo de caso 2: obtendo estatícas para determinadas áreas
 
 library(purrr)
 library(raster)
+
 
 dat <- structure(list(ID = 758432:758443, 
                       lat = c(-14.875, -14.875, -14.625, -14.625, -14.875, -14.875, -14.625, -14.625, -14.375, -14.375, -14.125, -14.125), 
@@ -134,22 +136,20 @@ endDate <- rgee::ee$Date('2020-01-10');
 
 ImageCollection <- rgee::ee$ImageCollection('NASA/NEX-GDDP')$filter(ee$Filter$date(startDate, endDate))
 
-# Pegando lista de imagens ( um por dia)
+# Pegando lista de imagens (um por dia)
 
 ListOfImages <- ImageCollection$toList(ImageCollection$size());
 
 
-# Primeira imagem
+# Pegando apensa uma imagem (com três bandas) 
 image <- rgee::ee$Image(ListOfImages$get(8))
-image$getInfo()
 
 # Média
 
 Means <- image$reduceRegions(collection = polygonsCollection,reducer= ee$Reducer$mean())
 Means$getInfo()
 
-
-#
+# Salvando no Drive 
 
 output_mean <- rgee::ee_table_to_drive(
   collection = Means,
@@ -159,3 +159,42 @@ output_mean <- rgee::ee_table_to_drive(
 output_mean$start()
 
 ee_monitoring(output_mean)
+
+
+#3 Calcular a tendência das luzes noturnas
+
+# Adiciona uma faixa contendo a data da imagem como anos desde 1991.
+createTimeBand <-function(img) {
+  year <- ee$Date(img$get('system:time_start'))$get('year')$subtract(1991L)
+  ee$Image(year)$byte()$addBands(img)
+}
+
+# Map the time band creation helper over the night-time lights collection.
+
+collection <- ee$
+  ImageCollection('NOAA/DMSP-OLS/NIGHTTIME_LIGHTS')$
+  select('stable_lights')$
+  map(createTimeBand)
+
+
+# Calcule um ajuste linear sobre a série de valores em cada pixel, visualizando a interseção y em verde e as inclinações positivas em vermelho e negativas em azul.
+
+
+col_reduce <- collection$reduce(ee$Reducer$linearFit())
+col_reduce <- col_reduce$addBands(
+  col_reduce$select('scale'))
+ee_print(col_reduce)
+
+# Vizaalização
+
+
+Map$setCenter(9.08203, 47.39835, 3)
+Map$addLayer(
+  eeObject = col_reduce,
+  visParams = list(
+    bands = c("scale", "offset", "scale"),
+    min = 0,
+    max = c(0.18, 20, -0.18)
+  ),
+  name = "stable lights trend"
+)
