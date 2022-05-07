@@ -33,7 +33,7 @@ ee_install()
 
 library(rgee) 
 
-# ee_check()
+ee_check()
 
 rgee::ee_check() # de bom tom sempre inciar uma nova seção do R/Rstudio e for usar o rgee
 
@@ -42,11 +42,10 @@ rgee::ee_Initialize() # Obrigatório ao inciar uma nova seção do R ou R studio
 
 # Sintaxe(ee_ x ee$)
 
-## ee_
 
 # Outra maneira
 
-#rgee::ee
+rgee::ee$Classifier$amnhMaxent()
 
 #rgee::ee$Classifier$amnhMaxent(__________)
 
@@ -94,7 +93,7 @@ ee_nc_rain |>
   ggplot2::ylab("Precipitation (mm)") +
   ggplot2::theme_minimal()
 
-#Estudo de caso 2: obtendo estatícas para determinadas áreas
+#Estudo de caso 2: obtendo estatísticas para determinadas áreas
 
 library(purrr)
 library(raster)
@@ -126,6 +125,7 @@ polygonsCollection <- rgee::ee$FeatureCollection(unname(polygonsFeatures))
 # Plotando 
 rgee::Map$addLayer(polygonsCollection)
 
+Map$addLayer()
 
 # Acessando o dado de clima (temperatura mínima e máxima)
 
@@ -135,6 +135,7 @@ startDate <- rgee::ee$Date('2020-01-01');
 endDate <- rgee::ee$Date('2020-01-10');
 
 ImageCollection <- rgee::ee$ImageCollection('NASA/NEX-GDDP')$filter(ee$Filter$date(startDate, endDate))
+ee$ImageCollection$filter
 
 # Pegando lista de imagens (um por dia)
 
@@ -148,6 +149,7 @@ image <- rgee::ee$Image(ListOfImages$get(8))
 
 Means <- image$reduceRegions(collection = polygonsCollection,reducer= ee$Reducer$mean())
 Means$getInfo()
+
 
 # Salvando no Drive 
 
@@ -186,7 +188,6 @@ col_reduce <- col_reduce$addBands(
 ee_print(col_reduce)
 
 # Vizaalização
-
 
 Map$setCenter(9.08203, 47.39835, 3)
 Map$addLayer(

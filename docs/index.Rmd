@@ -1,5 +1,5 @@
 ---
-title: " VI SER<br><br>  Uma pacote em R para acessar o Google Earth Engine" 
+title: " VI SER<br><br>  Um pacote em R para acessar o Google Earth Engine" 
 author: "Tainá Rocha"
 role: Environmental and Biodiversity Data Scientist <br> Biologist | MSc. in Environmental biology | PhD. in Zoology 
 org: "  "
