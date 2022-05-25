@@ -6,39 +6,40 @@
 ## Versão do R: 4.2.0
 ## Versão do rgee: 1.1.3
 ## Roteiro do script:
+
 ## 1 Instalações  -------------------------------------------------------------------------------
 ## 2 Funções por seção e sintaxe(ee_ x ee$) -----------------------------------------------------
-## 3 Estudos de caso (3) ------------------------------------------------------------------------
+## 3 Estudos de caso (2) ------------------------------------------------------------------------
 
 ######################################################################################################
 
 
 #1 Instalações ----------------------------------------------------------------------------------------
 
-# Requsitos:
+# Requisitos:
 # Conta no Google com Earth Engine ativado
 # Python >= v3.5
 
-install.packages("rgee") # intalação parte 1- uma vez geralmente 
+install.packages("rgee") # instalação parte 1- uma vez geralmente 
 
-# ee_instal() # instalção parte 2- uma vez geralmente 
+# ee_instal() # instalação parte 2- uma vez geralmente 
 
 library(rgee) 
 ee_install()
 # Numpy- pacote para manipulação de objetos do tipo array, ex.:matrizes multi-dimensioais;
-# ee - pacote para intergagir com a API Python do GEE
-# Detalhes sobre a instalaçao disponíveis nas refências da apresentação
+# ee - pacote para interagir com a API Python do GEE
+# Detalhes sobre a instalação estão disponíveis nas referências da apresentação
 
-#2 Comandos por seção e e sintaxe(ee_ x ee$) ----------------------------------------------------
+#2 Comandos por seção e sintaxe(ee_ x ee$) ----------------------------------------------------
 
 library(rgee) 
 
 ee_check()
 
-rgee::ee_check() # de bom tom sempre inciar uma nova seção do R/Rstudio e for usar o rgee
+rgee::ee_check() # de bom tom sempre que iniciar uma nova R/Rstudio session para usar o rgee
 
 # ee_Initialize()
-rgee::ee_Initialize() # Obrigatório ao inciar uma nova seção do R ou R studio e for usar o rgee
+rgee::ee_Initialize() # Obrigatório ao iniciar uma nova R/Rstudio session para usar o rgee
 
 # Sintaxe(ee_ x ee$)
 
@@ -46,23 +47,24 @@ rgee::ee_Initialize() # Obrigatório ao inciar uma nova seção do R ou R studio
 # Outra maneira
 
 rgee::ee$Classifier$amnhMaxent()
+rgee::ee$Classifier$amnhMaxent()
 
 #rgee::ee$Classifier$amnhMaxent(__________)
 
 #3 Estudos de caso ---------------------------------------------------------
 
-# Análise exploratória de dados climáticos (Precipitação). Com objetivo de verificar a tendencia dos valores de precipitação ao longo do ano.
+# Análise exploratória de dados climáticos (Precipitação), com o objetivo de verificar a tendência dos valores de precipitação ao longo de um determinado ano.
 
 
-# Vizualizar essa tendencia em um graffito
+# Visualizar essa tendência em um gráfico
 
 library(dplyr) # manipulação dos dados (dataframe)
-library(geojsonio) # Converte dados para 'GeoJSON'  
+library(geojsonio) # Converter dados para 'GeoJSON'  
 library(ggplot2) # gráficos 
-library(rgee) # obtenção dos dados / estíticas 
-library(raster) # manipualção de dados vetoriais e matriciais 
+library(rgee) # obtenção dos dados / estatísticas 
+library(raster) # manipulação de dados vetoriais e matriciais
 library(sf)   # manipulação de dados vetoriais 
-library(tidyr) # manipulação dos dados (dataframe)
+library(tidyr) # manipulação de dataframe
 
 
 # Lendo o dado vetorial - área de estudo
@@ -71,7 +73,7 @@ nc_shape <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRU
 # Plotando o dado
 plot(sf::st_geometry(nc_shape)) #plotando 
 
-# Pipiline para acessar o dado de precipatção, fazer um recorte temporal, selecionar a variável de interesse (prec) e renomear.
+# Pipeline para acessar o dado de precipitação, fazer um recorte temporal, selecionar a variável de interesse (prec) e renomear.
 
 terraclimate <- ee$ImageCollection("IDAHO_EPSCOR/TERRACLIMATE") |> 
   ee$ImageCollection$filterDate("2001-01-01", "2002-01-01") |> 
@@ -79,11 +81,12 @@ terraclimate <- ee$ImageCollection("IDAHO_EPSCOR/TERRACLIMATE") |>
   ee$ImageCollection$toBands() |>  # converter de um objeto imagecollection para objeto image
   ee$Image$rename(sprintf("PP_%02d",1:12)) # renomeando as bandas 
 
+ee$ImageCollection()
 
-# Extraindo 
+# Extraindo os valores de precipitação
 ee_nc_rain <- ee_extract(x = terraclimate, y = nc_shape["NAME"], sf = FALSE)
 
-## 
+## Manipulação do dataframe 
 ee_nc_rain |> 
   tidyr::pivot_longer(-NAME, names_to = "month", values_to = "pr")  |> 
   dplyr::mutate(month, month=gsub("PP_", "", month)) |> 
@@ -93,7 +96,7 @@ ee_nc_rain |>
   ggplot2::ylab("Precipitation (mm)") +
   ggplot2::theme_minimal()
 
-#Estudo de caso 2: obtendo estatísticas para determinadas áreas
+# Estudo de caso 2: obtendo estatísticas para determinadas áreas
 
 library(purrr)
 library(raster)
@@ -110,7 +113,7 @@ dat_poly <- raster::rasterToPolygons(dat_rast, fun=NULL, na.rm=TRUE, dissolve=FA
 
 plot(dat_poly)
 
-# Trasformando o dado vetorial em um objeto ee$FeatureCollection  
+# Transformando o dado vetorial em um objeto ee$FeatureCollection  
 
 coords <- as.data.frame(raster::geom(dat_poly))
 
@@ -137,12 +140,12 @@ endDate <- rgee::ee$Date('2020-01-10');
 ImageCollection <- rgee::ee$ImageCollection('NASA/NEX-GDDP')$filter(ee$Filter$date(startDate, endDate))
 ee$ImageCollection$filter
 
-# Pegando lista de imagens (um por dia)
+# Lista de imagens (um por dia)
 
 ListOfImages <- ImageCollection$toList(ImageCollection$size());
 
 
-# Pegando apensa uma imagem (com três bandas) 
+# Apenas uma imagem (com três bandas)
 image <- rgee::ee$Image(ListOfImages$get(8))
 
 # Média
@@ -151,7 +154,7 @@ Means <- image$reduceRegions(collection = polygonsCollection,reducer= ee$Reducer
 Means$getInfo()
 
 
-# Salvando no Drive 
+# Salvando o resultado no Drive
 
 output_mean <- rgee::ee_table_to_drive(
   collection = Means,
@@ -162,40 +165,4 @@ output_mean$start()
 
 ee_monitoring(output_mean)
 
-
-#3 Calcular a tendência das luzes noturnas
-
-# Adiciona uma faixa contendo a data da imagem como anos desde 1991.
-createTimeBand <-function(img) {
-  year <- ee$Date(img$get('system:time_start'))$get('year')$subtract(1991L)
-  ee$Image(year)$byte()$addBands(img)
-}
-
-# Map the time band creation helper over the night-time lights collection.
-
-collection <- ee$
-  ImageCollection('NOAA/DMSP-OLS/NIGHTTIME_LIGHTS')$
-  select('stable_lights')$
-  map(createTimeBand)
-
-
-# Calcule um ajuste linear sobre a série de valores em cada pixel, visualizando a interseção y em verde e as inclinações positivas em vermelho e negativas em azul.
-
-
-col_reduce <- collection$reduce(ee$Reducer$linearFit())
-col_reduce <- col_reduce$addBands(
-  col_reduce$select('scale'))
-ee_print(col_reduce)
-
-# Vizaalização
-
-Map$setCenter(9.08203, 47.39835, 3)
-Map$addLayer(
-  eeObject = col_reduce,
-  visParams = list(
-    bands = c("scale", "offset", "scale"),
-    min = 0,
-    max = c(0.18, 20, -0.18)
-  ),
-  name = "stable lights trend"
-)
+####### Fim
